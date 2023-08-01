@@ -1,1 +1,1 @@
-# StKaggleConnect
+# Streamlit Kaggle Connection Demo App
