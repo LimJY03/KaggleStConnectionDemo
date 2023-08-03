@@ -32,6 +32,40 @@ coordinate_dict = {
     'Washington D.C.': (38.9072, -77.0379)
 }
 
+def run(conn: st.experimental_connection) -> None:
+    
+    st.write('''
+             We are using the queried `AB_US_2023.csv` data file from the 
+             [US Airbnb Open Data](https://www.kaggle.com/datasets/kritikseth/us-airbnb-open-data) 
+             dataset by Kritikseth for this sample visualization. You may 
+             expand the \'View dataframe\' expander to see the top $N$ rows in 
+             this dataframe.
+             ''')
+
+    with st.expander('View dataframe'):
+
+        data = conn.query(
+            'kritikseth/us-airbnb-open-data',
+            file='AB_US_2023.csv'
+        )
+
+        if len(data.index) > 1:
+
+            num_rows = st.slider(
+                'Number of rows to view',
+                key='sample_viz_tab',
+                value=min(5, len(data)),
+                min_value=1,
+                max_value=min(100, len(data))
+            )
+
+            st.table(data.iloc[:num_rows])
+
+        else: st.table(data)
+
+    # Visualizations
+    show_3d_map(data)
+
 def show_3d_map(map_data) -> None:
     '''Display 3D Map'''
 
