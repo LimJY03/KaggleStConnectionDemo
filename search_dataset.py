@@ -85,7 +85,7 @@ def run(conn: st.experimental_connection, cursor: KaggleApi) -> None:
 
                 else:
                     documentation.container(
-                        type='warning',
+                        ctype='warning',
                         icon='⚠',
                         head='No Files In Dataset',
                         info='''Try searching for other datasets here or at the official
@@ -95,7 +95,7 @@ def run(conn: st.experimental_connection, cursor: KaggleApi) -> None:
 
         else: 
             documentation.container(
-                type='warning',
+                ctype='warning',
                 icon='⚠',
                 head='Dataset Not Found',
                 info='''Try searching for other datasets here or at the official

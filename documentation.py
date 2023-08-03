@@ -1,15 +1,15 @@
 import streamlit as st
 
-def container(info: str, head: str = '', icon: str = '', type: str = 'info') -> st.info:
+def container(info: str, head: str = '', icon: str = '', ctype: str = 'info') -> st.info:
     '''
     Reusable container with optional icon and heading
-    - Color depends on `type` param
+    - Color depends on `ctype` param
         - info -> blue
         - warning -> yellow
         - error -> red
     '''
 
-    return exec(f"""st.{type}(f'''**{icon} {head}**  
+    return exec(f"""st.{ctype}(f'''**{icon} {head}**  
         {info}
     ''')""")
 
@@ -90,7 +90,7 @@ def main_docs() -> None:
              ''')
     
     container(
-        type='info',
+        ctype='info',
         icon='🗨',
         head='''Kaggle\'s Public API Documentation 
                 ([Read Here](https://www.kaggle.com/docs/api))''',
