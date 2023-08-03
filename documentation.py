@@ -38,6 +38,10 @@ def main_docs() -> None:
              ''')
     
     st.code('''
+            # Package imports
+            from KaggleAPIConnection import KaggleAPIConnection
+            import streamlit as st
+            
             # Initialize connection
             conn = st.experimental_connection("kaggle", type=KaggleAPIConnection)
 
