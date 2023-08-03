@@ -12,18 +12,32 @@ st.set_page_config(
 
 # Connect app to Kaggle API
 conn = st.experimental_connection("kaggle", type=KaggleAPIConnection)
+cursor = conn.cursor()
 
 # Page header
 st.title('KaggleStConnection Demo App')
 st.markdown('---')
 
 # Connection description
+documentation.container(
+    type='warning',
+    icon='🚧',
+    head='Description Under Development ...',
+    info='''While waiting for this description to complete developing, 
+            please further explore this app and play around with other features
+            '''
+)
+
 st.write('''
-         Lorem ipsum description undone gg
+         :orange[// Lorem ipsum description undone gg]
          ''')
 
 st.write('''
-         Reference to API repo and Demo repo more lorem ipsum undone gg
+         :orange[// Reference to API repo and Demo repo more lorem ipsum undone gg]
+         ''')
+
+st.write('''
+         :orange[// Dependency lists & how to setup]
          ''')
 
 # Demonstrate functions
@@ -73,11 +87,12 @@ with sample_viz_tab:
 
         data = conn.query(
             'kritikseth/us-airbnb-open-data',
-            file='AB_US_2023.csv'
+            _file='AB_US_2023.csv'
         )
 
         num_rows = st.slider(
             'Number of rows to view',
+            key='sample_viz_tab',
             value=min(5, len(data)),
             min_value=1,
             max_value=min(100, len(data))
@@ -93,48 +108,49 @@ with view_dataset_tab:
     documentation.container(
         type='warning',
         icon='🚧',
-        head='Feature Under Development ...',
-        info='''While waiting for this feature to complete developing, please 
-                further explore this app and play around with other features'''
+        head='Description Under Development ...',
+        info='''While waiting for this description to complete developing, 
+                please further explore this app and play around with other 
+                features'''
     )
 
-    # st.table(data.iloc[:10])
+    # Choose dataset
+    search_input = st.text_input('Search a dataset', placeholder='Enter a word')
 
-    # # Choose dataset
-    # search_input = st.text_input('Search a dataset', placeholder='Enter a word')
+    # dataset_list_ref = []
 
-    # with st.form('search_dataset'):
+    if search_input:
 
-    #     dataset_list_ref = []
+        dataset_lists = cursor.dataset_list(search=search_input, file_type='csv')
+        dataset_list_ref = [data.ref for data in dataset_lists]
+        user_select = st.selectbox('Select the dataset', dataset_list_ref)
 
-    #     if search_input:
+        if user_select:
 
-    #         dataset_lists = cursor.dataset_list(search=search_input, file_type='csv')
-    #         dataset_list_ref = [data.ref for data in dataset_lists]
+            dataset_files = cursor.dataset_list_files(user_select)
+            selected_file = st.selectbox('Select a dataset file', dataset_files.files)
 
-    #     user_select = st.selectbox('Select the dataset', dataset_list_ref)
-    #     user_search = st.form_submit_button('Search')
+            if selected_file:
 
-    # if user_search:
+                selected_data = conn.query(user_select, _file=selected_file)
 
-    #     dataset_files = cursor.dataset_list_files(user_select)
+                num_rows = st.slider(
+                    'Number of rows to view',
+                    key='view_dataset_tab',
+                    value=min(5, len(selected_data)),
+                    min_value=1,
+                    max_value=min(100, len(selected_data))
+                )
 
-    #     with st.form('select_file'):
-    #         selected_file = st.selectbox('Select a dataset file', dataset_files.files)
-    #         display_file = st.form_submit_button('Display')
-
-    #     if display_file:
-
-    #         data = conn.query(user_select, file=selected_file)
-    #         st.table(data)
+                st.table(selected_data.iloc[:num_rows])
 
 with view_connection_info:
 
     # Display user for current session
-    cursor = conn.cursor()
     current_user = cursor.get_config_value('username')
 
     st.success(f' Current Kaggle API Username: **{current_user}**')
+    # st.toast(':white_check_mark: **Connection Success**')
 
     st.write('''
              We can use the `cursor()` method to obtain the connection object. 
@@ -167,5 +183,10 @@ with view_connection_info:
                 trigger the download of kaggle.json, a file containing your 
                 API credentials.'''
     )
+
+    st.write('''
+             To use your API keys in streamlit, you can either:
+             * Go to your **Project Root (~)** and create a 
+             ''')
 
     # Kaggle API info
