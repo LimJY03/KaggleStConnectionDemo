@@ -87,7 +87,7 @@ with sample_viz_tab:
 
         data = conn.query(
             'kritikseth/us-airbnb-open-data',
-            _file='AB_US_2023.csv'
+            file='AB_US_2023.csv'
         )
 
         num_rows = st.slider(
@@ -132,7 +132,7 @@ with view_dataset_tab:
 
             if selected_file:
 
-                selected_data = conn.query(user_select, _file=selected_file)
+                selected_data = conn.query(user_select, file=selected_file)
 
                 num_rows = st.slider(
                     'Number of rows to view',
