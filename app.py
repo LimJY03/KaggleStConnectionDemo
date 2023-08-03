@@ -10,56 +10,36 @@ st.set_page_config(
     layout='wide',
 )
 
+# Connect app to Kaggle API
+conn = st.experimental_connection("kaggle", type=KaggleAPIConnection)
+
 # Page header
 st.title('KaggleStConnection Demo App')
 st.markdown('---')
 
-# Connect app to Kaggle API
-conn = st.experimental_connection("kaggle", type=KaggleAPIConnection)
+# Connection description
+st.write('''
+         Lorem ipsum description undone gg
+         ''')
 
-# Display user for current session
-demo_col, docs_col = st.columns([3, 2])
-
-cursor = conn.cursor()
-
-with demo_col:
-    current_user = cursor.get_config_value('username')
-    st.success(f' Current Kaggle API Username: **{current_user}**')
-
-with docs_col:
-
-    st.write('''
-             We can use the `cursor()` method to obtain the connection object. 
-             In this case we use it to display the username of the API key.
-             ''')
-
-    st.write('''
-             In practice, you should be using your own API key to connect to 
-             the Kaggle API. The following quotes the steps to obtain your API 
-             key on [**kaggle.com**](https://www.kaggle.com/) from the Kaggle 
-             Documentation.
-             ''')
-
-    documentation.container(
-        type='info',
-        icon='🗨',
-        head='''Kaggle\'s Public API Documentation 
-                ([Read Here](https://www.kaggle.com/docs/api))''',
-        info='''In order to use the Kaggle\'s public API, you must first 
-                authenticate using an API token. Go to the \'Account\' tab of 
-                your user profile and select \'Create New Token\'. This will 
-                trigger the download of kaggle.json, a file containing your 
-                API credentials.'''
-    )
-
-# Kaggle API info
+st.write('''
+         Reference to API repo and Demo repo more lorem ipsum undone gg
+         ''')
 
 # Demonstrate functions
-sample_viz_tab, view_dataset_tab = st.tabs(
-    ['Sample Visualization', 'Search and View Dataset File']
+sample_viz_tab, view_dataset_tab, view_connection_info = st.tabs(
+    ['Sample Visualization', 'Search and View Dataset File', 'View Connection Info']
 )
 
 with sample_viz_tab:
+
+    st.write('''
+             We are using the \'AB_US_2023.csv\' data file from the 
+             [**US Airbnb Open Data**](https://www.kaggle.com/dataset/kritikseth/us-airbnb-open-data) 
+             dataset by Kritikseth for this sample visualization. You may 
+             expand the \'View dataframe\' expander to see the top $N$ rows in 
+             this dataframe.
+             ''')
 
     with st.expander('View dataframe'):
 
@@ -79,15 +59,21 @@ with sample_viz_tab:
                 # Using the previous initialized connection object `conn`
                 data = conn.query(
                     'kritikseth/us-airbnb-open-data',   # Dataset ref
-                    file='AB_US_2020.csv'               # Optional file to open
+                    file='AB_US_2023.csv'               # Optional file to open
                 )
                 ''')
+        
+        st.write('''
+                 In this case, we set the parameter `file` to `\'AB_US_2023.csv\'` 
+                 so that we will obtain the desired latest data for our sample
+                 visualization. 
+                 ''')
 
         st.markdown('---')
 
         data = conn.query(
             'kritikseth/us-airbnb-open-data',
-            # file='AB_US_2020.csv'
+            file='AB_US_2023.csv'
         )
 
         num_rows = st.slider(
@@ -141,3 +127,45 @@ with view_dataset_tab:
 
     #         data = conn.query(user_select, file=selected_file)
     #         st.table(data)
+
+with view_connection_info:
+
+    # Display user for current session
+    cursor = conn.cursor()
+    current_user = cursor.get_config_value('username')
+
+    st.success(f' Current Kaggle API Username: **{current_user}**')
+
+    st.write('''
+             We can use the `cursor()` method to obtain the connection object. 
+             In this case we use it to display the username of the API key.
+             ''')
+
+    st.code('''
+            # Get cursor object
+            cursor = conn.cursor()
+
+            # Get API username
+            current_user = cursor.get_config_value('username')
+            ''')
+
+    st.write('''
+             In practice, you should be using your own API key to connect to 
+             the Kaggle API. The following quotes the steps to obtain your API 
+             key on [**kaggle.com**](https://www.kaggle.com/) from the Kaggle 
+             Documentation.
+             ''')
+
+    documentation.container(
+        type='info',
+        icon='🗨',
+        head='''Kaggle\'s Public API Documentation 
+                ([Read Here](https://www.kaggle.com/docs/api))''',
+        info='''In order to use the Kaggle\'s public API, you must first 
+                authenticate using an API token. Go to the \'Account\' tab of 
+                your user profile and select \'Create New Token\'. This will 
+                trigger the download of kaggle.json, a file containing your 
+                API credentials.'''
+    )
+
+    # Kaggle API info
