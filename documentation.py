@@ -122,7 +122,7 @@ def main_docs() -> None:
              * :red[**[NOT RECOMMENDED FOR PUBLIC DEPLOYMENT]**] 
                 Specify the `kaggle_username` and `kaggle_key` optional parameter 
                 during the initialization of the connection with 
-                `st.experimental_connection`. An example of this usecase is shown 
+                `st.connection`. An example of this usecase is shown 
                 as below:
                 ```py
                 conn = st.connection(
