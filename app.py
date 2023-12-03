@@ -11,7 +11,7 @@ st.set_page_config(
 )
 
 # Connect app to Kaggle API
-conn = st.experimental_connection("kaggle", type=KaggleAPIConnection)
+conn = st.connection("kaggle", type=KaggleAPIConnection)
 cursor = conn.cursor()
 
 # Page header
