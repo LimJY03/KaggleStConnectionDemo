@@ -2,7 +2,7 @@ from kaggle import KaggleApi
 import streamlit as st
 import documentation
 
-def run(conn: st.experimental_connection, cursor: KaggleApi) -> None:
+def run(conn: st.connection, cursor: KaggleApi) -> None:
     '''
     Executes the dataset search feature
     

@@ -25,7 +25,7 @@ def main_docs() -> None:
             ''')
 
     st.code('''
-            pip install git+https://github.com/genesis331/KaggleStConnection.git@v1.2.2
+            pip install git+https://github.com/genesis331/KaggleStConnection.git@v1.3.0
             ''',
             language='sh')
     
@@ -43,7 +43,7 @@ def main_docs() -> None:
             import streamlit as st
             
             # Initialize connection
-            conn = st.experimental_connection("kaggle", type=KaggleAPIConnection)
+            conn = st.connection("kaggle", type=KaggleAPIConnection)
 
             # Obtain connection object
             cursor = conn.cursor()
@@ -125,7 +125,7 @@ def main_docs() -> None:
                 `st.experimental_connection`. An example of this usecase is shown 
                 as below:
                 ```py
-                conn = st.experimental_connection(
+                conn = st.connection(
                     'kaggle', 
                     type=KaggleAPIConnection,
                     kaggle_username='<USERNAME>',
