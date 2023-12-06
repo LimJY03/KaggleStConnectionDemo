@@ -32,7 +32,7 @@ coordinate_dict = {
     'Washington D.C.': (38.9072, -77.0379)
 }
 
-def run(conn: st.experimental_connection) -> None:
+def run(conn: st.connection) -> None:
     
     st.write('''
              We are using the queried `AB_US_2023.csv` data file from the 
