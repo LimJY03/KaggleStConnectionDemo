@@ -18,7 +18,7 @@ You can view the source GitHub repository for the connection class and the demo 
 To install **KaggleStConnection** in your local machine, install the package with the code below in the terminal and you are ready to go.
 
 ```sh
-pip install git+https://github.com/genesis331/KaggleStConnection.git@v1.3.0
+pip install kaggle-st-connection
 ```
 
 ### Initializing KaggleStConnection
