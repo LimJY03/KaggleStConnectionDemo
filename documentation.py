@@ -25,7 +25,7 @@ def main_docs() -> None:
             ''')
 
     st.code('''
-            pip install git+https://github.com/genesis331/KaggleStConnection.git@v1.3.0
+            pip install kaggle-st-connection
             ''',
             language='sh')
     
